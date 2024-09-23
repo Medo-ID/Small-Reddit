@@ -1,8 +1,20 @@
-import './App.css'
+import Header from './components/header/Header.jsx'
 
-function App() {
+function App(){
   return (
-    <h1>Small Reddit</h1>
+    <>
+    <header>
+      <Header/>
+    </header>
+      
+    <main>
+
+    </main>
+      
+    <aside>
+      
+    </aside>
+    </>
   )
 }
 

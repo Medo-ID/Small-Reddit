@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&family=Lora:wght@400..700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    color: #ffebcd;
+    background-color: #232323;
+}
+
+body {
+    width: 75%;
+    margin: auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Lora", serif;
+    font-optical-sizing: auto;
+}
+
+p, button, a {
+    font-family: "IBM Plex Sans", sans-serif;
+}
+
+@media (max-width: 760px) {
+    body {
+        width: 100%;
+    }
+}
