@@ -1,19 +1,15 @@
+import CategoriesFilter from './components/categoryFilter/CategoriesFilter.jsx'
 import Header from './components/header/Header.jsx'
+import PostList from './components/postList/PostList.jsx'
 
 function App(){
   return (
     <>
-    <header>
       <Header/>
-    </header>
-      
-    <main>
-
-    </main>
-      
-    <aside>
-      
-    </aside>
+      <div className='flex flex-col-reverse md:flex-row justify-evenly items-start gap-2'>
+        <PostList />
+        <CategoriesFilter />
+      </div>
     </>
   )
 }

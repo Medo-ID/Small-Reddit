@@ -1,45 +1,48 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-export const subreddits =  [
-    'Home',
-    'AskReddit',
-    'NoStupidQuestions',
-    'BaldursGate3',
-    'facepalm',
-    'interestingasfuck',
-    'Damnthatsinteresting',
-    'LivestreamFail',
-    'pics',
-    'Palworld',
-    'AmItheAsshole',
-    'mildlyinfuriating',
-    'Piracy',
-    'PeterExplainsTheJoke',
-    'funny',
-    'AITAH',
-    'movies',
-    'Helldivers',
-    'gaming',
-    'worldnews',
-    'leagueoflegends',
-    'pcmasterrace',
-    'Unexpected',
-    'news',
-    'politics'
-]
+export const getSubreddits = createAsyncThunk(
+    'categories/getSubreddits',
+    async () => {
+        const response = await fetch('https://www.reddit.com/subreddits/popular.json')
+        const data = await response.json();
+    
+        // Extract the subreddit data
+        return data.data.children.map((child) => child.data);
+    }
+)
 
 const categoriesSlice = createSlice({
     name: 'categories',
     initialState: {
-        categories: subreddits,
-        selectedCategory: 'Home',
+        subreddits: [],
+        isLoading: false,
+        error: null,
+        activeCategory: null
     },
     reducers: {
-        setSelectedCategory: (state, action) => {
-            state.selectedCategory = action.payload
+        setActiveCategory: (state, action) => {
+            state.activeCategory = action.payload;
+        },
+        clearActiveCategory: (state) => {
+            state.activeCategory = null;
         }
+    },
+    extraReducers: (builder) => {
+        builder
+        .addCase(getSubreddits.pending, state => {
+            state.isLoading = true
+            state.error = null
+        })
+        .addCase(getSubreddits.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.subreddits = action.payload
+        })
+        .addCase(getSubreddits.rejected, (state, action) => {
+            state.isLoading = false
+            state.error = action.error.message
+        })
     }
 })
 
-export const { setSelectedCategory } = categoriesSlice.actions
+export const { setActiveCategory, clearActiveCategory } = categoriesSlice.actions;
 export default categoriesSlice.reducer

@@ -16,7 +16,7 @@
 }
 
 body {
-    width: 75%;
+    width: 80%;
     margin: auto;
 }
 
@@ -29,6 +29,11 @@ p, button, a {
     font-family: "IBM Plex Sans", sans-serif;
 }
 
+@media (min-width: 1600px) {
+    body {
+        width: 60%;
+    }
+}
 @media (max-width: 760px) {
     body {
         width: 100%;

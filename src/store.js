@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import postsReducer from './components/postList/postsSlice'
-import searchReducer from './components/searchBar/searchSlice'
-import categoriesReducer from './components/categoryFilter/categoriesSlice'
+import postsReducer from './components/postList/postsSlice';
+import categoriesReducer from './components/categoryFilter/categoriesSlice';
+import searchReducer from './components/searchBar/searchSlice';
 
 const store = configureStore({
     reducer: {
         posts: postsReducer,
-        search: searchReducer,
-        categories: categoriesReducer
+        categories: categoriesReducer,
+        search: searchReducer
     }
-})
+});
 
-export default store
+export default store;
