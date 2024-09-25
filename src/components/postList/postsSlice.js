@@ -18,15 +18,15 @@ export const getPosts = createAsyncThunk(
 
 export const getPostComments = createAsyncThunk(
     'posts/getPostComments',
-    async ({ postId, subreddit }, { rejectWithValue }) => {
+    async ({index, permalink}, { rejectWithValue }) => {
         try {
-            const response = await fetch(`https://www.reddit.com/r/${subreddit}/comments/${postId}.json`) // const response = await fetch(`https://www.reddit.com/comments/${postId}.json`);
+            const response = await fetch(`https://www.reddit.com/${permalink}.json`)
             if (!response.ok) {
                 throw new Error('Failed to fetch comments');
             }
             const data = await response.json()
-            const comments = data[1].data.children.map(comment => comment.data);
-            return { postId, comments }
+            const comments = data[1].data.children.map((child) => child.data)
+            return {index, comments}
         } catch (error) {
             return rejectWithValue(error.message)
         }
@@ -53,11 +53,14 @@ const postsSlice = createSlice({
     name: "posts",
     initialState: {
         posts: [],
-        commentsByPostId: {},
         isLoading: false,
         error: null,
     },
-    reducers: {},
+    reducers: {
+        toggleShowingComments(state, action) {
+            state.posts[action.payload].showingComments = !state.posts[action.payload].showingComments
+        }
+    },
     extraReducers: (builder) => {
         builder
         .addCase(getPosts.pending, (state) => { // Handle posts
@@ -65,27 +68,34 @@ const postsSlice = createSlice({
             state.error = null
         })
         .addCase(getPosts.fulfilled, (state, action) => {
-            state.posts = action.payload
+            state.posts = action.payload.map((post) => ({
+                ...post,
+                showingComments: false,
+                comments: [],
+                loadingComments: false,
+                errorComments: false
+            }));
             state.isLoading = false
-            state.error = null
         })
         .addCase(getPosts.rejected, (state, action) => {
             state.isLoading = false
-            state.error = action.payload || 'Failed to load posts'
+            state.error = action.error.message || 'Failed to load posts'
         })
-        .addCase(getPostComments.pending, (state) => { // Handle comments
-            state.isLoading = true
-            state.error = null
+        .addCase(getPostComments.pending, (state, action) => { // Handle comments
+            const post = state.posts[action.meta.arg.index]
+            post.loadingComments = true
+            post.errorComments = false
         })
         .addCase(getPostComments.fulfilled, (state, action) => {
-            const { postId, comments } = action.payload;
-            state.commentsByPostId[postId] = comments;  // Associate comments with specific post ID
-            state.isLoading = false
-            state.error = null
+            const post = state.posts[action.payload.index];
+            post.loadingComments = false;
+            post.showingComments = true;
+            post.comments = action.payload.comments;        
         })
         .addCase(getPostComments.rejected, (state, action) => {
-            state.isLoading = false
-            state.error = action.payload || 'Failed to load comments'
+            const post = state.posts[action.meta.arg.index];
+            post.loadingComments = false;
+            post.errorComments = true;
         })
         .addCase(getPostsBySearchTerm.pending, (state) => { // Handle search query
             state.isLoading = true
@@ -98,9 +108,10 @@ const postsSlice = createSlice({
         })
         .addCase(getPostsBySearchTerm.rejected, (state, action) => {
             state.isLoading = false
-            state.error = action.payload || 'No posts matching the search query'
+            state.error = action.error.message || 'No posts matching the search query'
         })
     }
 })
 
+export const {toggleShowingComments} = postsSlice.actions
 export default postsSlice.reducer

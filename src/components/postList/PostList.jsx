@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPosts, getPostsBySearchTerm } from "./postsSlice";
+import { getPostComments, getPosts, getPostsBySearchTerm, toggleShowingComments } from "./postsSlice";
 import PostItem from "../postItem/PostItem";
 import LoadingSkeleton from "../loadingSpinner/LoadingSpinner";
 
@@ -17,6 +17,13 @@ function PostList() {
         }
     }, [searchTerm, dispatch]);
 
+    const onToggleComments = (index, permalink) => {
+        if (posts[index].comments.length === 0) {
+            dispatch(getPostComments({ index, permalink }))
+        } 
+        dispatch(toggleShowingComments(index));
+    }
+
     if (isLoading) {
         return (
             <main className="flex flex-col gap-4 basis-3/4 bg-neutral-700 w-full md:h-screen p-1 md:p-2 md:mx-0 md:my-4 md:rounded-md overflow-y-auto">
@@ -26,6 +33,7 @@ function PostList() {
             </main>
         )
     }
+    
     if (error) {
         return (
             <main className="flex flex-col gap-4 basis-3/4 bg-neutral-700 w-full md:h-screen p-1 md:p-2 md:mx-0 md:my-4 md:rounded-md overflow-y-auto">
@@ -43,18 +51,22 @@ function PostList() {
     if (posts.length === 0) {
         return (
             <main className="flex flex-col gap-4 basis-3/4 bg-neutral-700 w-full md:h-screen p-1 md:p-2 md:mx-0 md:my-4 md:rounded-md overflow-y-auto">
-            <h2>No posts matching: {searchTerm}</h2>
-            <button type="button" onClick={() => dispatch(getPosts('Home'))}>
-              Go home
-            </button>
-          </main>
-        );
-      }
+                <h2>No posts matching: {searchTerm}</h2>
+                <button type="button" onClick={() => dispatch(getPosts('Home'))}>
+                    Go home
+                </button>
+            </main>
+        )
+    }
     
     return (
         <main className="flex flex-col gap-4 basis-3/4 bg-neutral-700 w-full md:h-screen p-1 md:p-2 md:mx-0 md:my-4 md:rounded-md overflow-y-auto">
-            {posts.map((post) => (
-                <PostItem key={post.id} post={post} />
+            {posts.map((post, index) => (
+                <PostItem 
+                    key={post.id} 
+                    post={post}
+                    onToggleComments={() => onToggleComments(index, post.permalink)}
+                />
             ))}
         </main>
     );
