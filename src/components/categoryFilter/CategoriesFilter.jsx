@@ -28,10 +28,12 @@ function CategoriesFilter() {
     }
 
     if (error) {
-        return <p>Error loading subreddits: {error}</p>
+        return (
+            <aside className="basis-1/4 md:bg-neutral-700 w-full p-1 my-1 md:p-2 md:mx-0 md:my-4 md:rounded-md overflow-hidden">
+                <p>Error loading subreddits: {error}</p>
+            </aside>
+        )    
     }
-
-    console.log(subreddits)
 
     return (
         <aside className="basis-1/4 md:bg-neutral-700 w-full p-1 my-1 md:p-2 md:mx-0 md:my-4 md:rounded-md overflow-hidden">
@@ -42,8 +44,8 @@ function CategoriesFilter() {
                             className={`flex justify-start gap-2 w-full p-1 md:pl-2 md:py-2 font-semibold text-sm rounded-sm text-left transition-colors delay-120
                                 ${
                                     activeCategory === subreddit.display_name
-                                        ? 'bg-mainColor text-mainBg' // Active styles
-                                        : 'bg-mainBg text-gray-400 hover:bg-mainColor hover:text-mainBg' // Inactive styles
+                                        ? 'bg-mainColor text-mainBg'
+                                        : 'bg-neutral-700 md:bg-mainBg text-mainColor md:text-gray-400 hover:bg-mainColor hover:text-mainBg'
                                 }`}
                             onClick={() => handleSubredditClick(subreddit.display_name)}
                         >

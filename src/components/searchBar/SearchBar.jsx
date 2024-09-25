@@ -10,13 +10,11 @@ function SearchBar() {
         dispatch(setSearchTerm(e.target.value));
         dispatch(clearActiveCategory())
     };
-
-    console.log(searchTerm)
-
+    
     return (
-        <div className="flex justify-center items-center gap-0 md:gap-1">
+        <div className="flex justify-center items-center gap-0">
             <input
-                className="bg-mainBg px-2 py-1 md:px-4 md:py-1 text-mainColor h-8 rounded-md"
+                className="bg-mainBg px-2 py-1 md:px-4 md:py-1 text-mainColor h-8 rounded-l-lg border-none"
                 id="search"
                 type="text"
                 value={searchTerm}
@@ -31,7 +29,7 @@ function SearchBar() {
                 strokeWidth="2" 
                 strokeLinecap="round" 
                 strokeLinejoin="round" 
-                className="w-8 h-8 rounded-md bg-mainBg p-1"
+                className="w-8 h-8 rounded-r-lg bg-mainBg p-1"
             >
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>

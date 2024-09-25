@@ -13,7 +13,7 @@ function LoadingSkeleton({ type }) {
         <div className={`${skeletonClasses} w-3/4 h-6`}></div>
 
         {/* Vote and Comment Skeleton */}
-        <div className="flex justify-between items-center mt-2">
+        <div className="animate-pulse flex justify-between items-center mt-2">
           <div className={`${skeletonClasses} w-16 h-4`}></div>
           <div className={`${skeletonClasses} w-20 h-4`}></div>
         </div>
@@ -31,6 +31,18 @@ function LoadingSkeleton({ type }) {
         <div className={`${skeletonClasses} w-3/4 h-4`}></div>
       </div>
     );
+  }
+
+  if (type === "comment") {
+    return (
+      <div className={`${skeletonClasses} flex space-x-4 my-2`}>
+        <div className="rounded-full bg-neutral-700 h-10 w-10"></div>
+        <div className="flex-1 space-y-4 py-1">
+          <div className="h-4 bg-neutral-700 rounded w-3/4"></div>
+          <div className="h-4 bg-neutral-700 rounded w-5/6"></div>
+        </div>
+      </div>
+    )
   }
 
   return null;
