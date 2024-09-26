@@ -1,6 +1,6 @@
-# Small Reddit
+# [Small Reddit](https://small-reddit.vercel.app/)
 
-Small Reddit is a simplified Reddit clone that allows users to view posts, search for specific subreddits, and load comments. The app is built using React and Redux and utilizes the Reddit API to fetch posts and display them.
+Small Reddit is a simplified Reddit clone that allows users to view posts, search for specific subreddits, and load comments. The app is built using React and Redux and utilizes the Reddit API to fetch posts and display them. [Live preview](https://small-reddit.vercel.app/)
 
 ## Table of Contents
 - [Small Reddit](#small-reddit)
