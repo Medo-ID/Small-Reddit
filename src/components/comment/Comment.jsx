@@ -3,7 +3,7 @@ import { formatDistanceToNow } from "date-fns"
 
 function Comment({comment}) {
     return (
-        <div className="bg-neutral-800 text-white p-1 md:2 rounded-md shadow-sm flex flex-col gap-1">
+        <div className="bg-neutral-800 text-white p-1 md:2 rounded-md shadow-sm flex flex-col gap-1 fade-in">
             <div key={comment.id} className="p-2 md:p-4 bg-neutral-700 rounded-md">
                 <div className="text-sm text-gray-400 flex justify-between items-center">
                     <span className="text-sm font-semibold text-mainColor">{comment.author}</span>

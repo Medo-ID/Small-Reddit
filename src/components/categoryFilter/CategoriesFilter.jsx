@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getSubreddits, setActiveCategory } from "./categoriesSlice"
 import { getPosts } from '../postList/postsSlice';
-import LoadingSkeleton from "../loadingSpinner/LoadingSpinner";
+import LoadingSkeleton from "../loadingSkeleton/LoadingSkeleton";
 
 function CategoriesFilter() {
     const dispatch = useDispatch()

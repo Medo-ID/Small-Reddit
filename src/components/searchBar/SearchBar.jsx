@@ -5,10 +5,15 @@ import { clearActiveCategory } from "../categoryFilter/categoriesSlice";
 function SearchBar() {
     const dispatch = useDispatch()
     const { searchTerm } = useSelector((state) => state.search)
+    const { activeCategory } = useSelector((state) => state.categories)
 
     const onSearchChangeHandler = (e) => {
-        dispatch(setSearchTerm(e.target.value));
-        dispatch(clearActiveCategory())
+        const value = e.target.value;
+        dispatch(setSearchTerm(value)) // Set search term in the state
+        if (activeCategory !== null){
+            console.log('gg')
+            dispatch(clearActiveCategory()) // Clear the active category if it's not already cleared
+        }
     };
     
     return (
