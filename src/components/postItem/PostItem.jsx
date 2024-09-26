@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { formatDistanceToNow } from 'date-fns'; // To format the timestamp
 import LoadingSkeleton from '../loadingSkeleton/LoadingSkeleton';
 import Comment from '../comment/Comment';
+import Avatar from '../avatar/Avatar';
 
 function PostItem({ post, onToggleComments }) {
 
@@ -15,14 +16,9 @@ function PostItem({ post, onToggleComments }) {
         }
 
         if (post.loadingComments) {
-            return (
-                <div>
-                    <LoadingSkeleton type='comment' />
-                    <LoadingSkeleton type='comment' />
-                    <LoadingSkeleton type='comment' />
-                    <LoadingSkeleton type='comment' />
-                </div>
-            );
+            return Array(4).fill().map((_, index) => (
+                <LoadingSkeleton key={index} type="comment" />
+            ))  
         }
 
         if (post.showingComments) {
@@ -42,11 +38,10 @@ function PostItem({ post, onToggleComments }) {
         return null;
     };
 
+    const imageUrl = post.preview?.images?.[0]?.source?.url?.replace(/&amp;/g, '&') || post.thumbnail;;
+
     return (
         <div className="bg-neutral-800 text-white p-4 rounded-md shadow-sm flex flex-col gap-4 fade-in">
-            {/* Post Thumbnail */}
-            <img src={post.url} alt={post.title} className="w-full h-auto rounded-md object-cover" />
- 
             {/* Post Title */}
             <h3 className="text-xl font-semibold">
                 <a href={`https://www.reddit.com${post.permalink}`} target="_blank" rel="noopener noreferrer">
@@ -54,17 +49,25 @@ function PostItem({ post, onToggleComments }) {
                 </a>
             </h3>
 
+            {/* Post Thumbnail */}
+            {imageUrl && (
+                <img src={imageUrl} alt={post.title} className="w-full h-auto rounded-md object-cover" />
+            )}
+
             {/* Author and Time */}
-            <div className="text-sm text-gray-400 flex justify-between items-center">
-                <span>Posted by u/{post.author}</span>
-                <span>{formatDistanceToNow(new Date(post.created_utc * 1000))} ago</span>
+            <div className="text-sm text-gray-400 flex justify-between items-center">   
+                <span className='text-xs md:text-sm flex items-center gap-1'>
+                        <Avatar profile_img={post.icon_img} />
+                        u/{post.author}
+                </span>
+                <span className='text-xs md:text-sm'>{formatDistanceToNow(new Date(post.created_utc * 1000))} ago</span>
             </div>
 
             {/* Vote Count and Comment Count */}
             <div className="flex justify-between items-center text-sm mt-2">
                 {/* Upvotes / Downvotes */}
                 <div className="flex items-center gap-2">
-                    <span className="text-green-500 flex justify-start items-center gap-1">
+                    <span className="text-green-300 flex justify-start items-center gap-1">
                         <svg
                             fill="currentColor"
                             viewBox="0 0 16 16"
@@ -75,7 +78,7 @@ function PostItem({ post, onToggleComments }) {
                         </svg>
                         {post.ups}
                     </span>
-                    <span className="text-red-500 flex justify-start items-center gap-1">
+                    <span className="text-red-300 flex justify-start items-center gap-1">
                         <svg
                             fill="currentColor"
                             viewBox="0 0 16 16"
@@ -112,8 +115,10 @@ PostItem.propTypes = {
         num_comments: PropTypes.number.isRequired,
         permalink: PropTypes.string.isRequired,
         author: PropTypes.string.isRequired,
+        icon_img: PropTypes.string,
         created_utc: PropTypes.number.isRequired,
-        url: PropTypes.string.isRequired,
+        preview: PropTypes.object,
+        thumbnail: PropTypes.string.isRequired,
         comments: PropTypes.array,
         showingComments: PropTypes.bool.isRequired,
         loadingComments: PropTypes.bool.isRequired,

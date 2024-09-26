@@ -19,27 +19,27 @@ function CategoriesFilter() {
 
     if (isLoading) {
         return (
-            <aside className="basis-1/4 md:bg-neutral-700 w-full p-1 my-1 md:p-2 md:mx-0 md:my-4 md:rounded-md overflow-hidden">
-                <LoadingSkeleton type="category" />
-                <LoadingSkeleton type="category" />
-                <LoadingSkeleton type="category" />
+            <aside className="fixed top-9 z-20 flex md:flex-col md:static basis-1/4 md:bg-neutral-700 w-full p-1 my-1 md:p-2 md:mx-0 md:my-4 md:rounded-md overflow-hidden">
+                {Array(12).fill().map((_, index) => (
+                    <LoadingSkeleton key={index} type="category" />
+                ))}
             </aside>
         )
     }
 
     if (error) {
         return (
-            <aside className="basis-1/4 md:bg-neutral-700 w-full p-1 my-1 md:p-2 md:mx-0 md:my-4 md:rounded-md overflow-hidden">
+            <aside className="fixed top-9 z-20 md:static basis-1/4 md:bg-neutral-700 w-full p-1 my-1 md:p-2 md:mx-0 md:my-4 md:rounded-md overflow-hidden">
                 <p>Error loading subreddits: {error}</p>
             </aside>
         )    
     }
 
     return (
-        <aside className="basis-1/4 md:bg-neutral-700 w-full p-1 my-1 md:p-2 md:mx-0 md:my-4 md:rounded-md overflow-hidden">
+        <aside className="fixed top-9 z-20 md:static basis-1/4 bg-neutral-900 md:bg-neutral-700 w-full p-1 my-1 md:p-2 md:mx-0 md:my-4 md:rounded-md overflow-hidden">
             <ul className="flex md:flex-col items-start gap-1 w-full overflow-x-auto">
                 {subreddits.map((subreddit) => (
-                    <li key={subreddit.id} className="w-full">
+                    <li key={subreddit.id} className="w-full fade-in">
                         <button
                             className={`flex justify-start gap-2 w-full p-1 md:pl-2 md:py-2 font-semibold text-sm rounded-sm text-left transition-colors delay-120
                                 ${
