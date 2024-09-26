@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+// import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux';
 import App from './App.jsx'
@@ -7,11 +7,11 @@ import ErrorBoundary from './components/errorBoundary/ErrorBoundary.jsx'
 import store from './store';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode>
     <ErrorBoundary>
       <Provider store={store}>
         <App />
       </Provider>
-    </ErrorBoundary>
-  </StrictMode>,
+    </ErrorBoundary>,
+  {/* </StrictMode>, */}
 )
